@@ -71,10 +71,18 @@ namespace rook::aoc::days {
         return delta >= 1 && delta <= 3;
     }
 
+    bool isIncreasingAndSafeDelta(int v, int next_v) {
+        return isIncreasing(v, next_v) && isSafeDelta(v, next_v);
+    }
+
+    bool isDecreasingAndSafeDelta(int v, int next_v) {
+        return isDecreasing(v, next_v) && isSafeDelta(v, next_v);
+    }
+
     bool isSafe(const vector<int>& report, bool canSkip) {
         return
-            isValidPairs(report, canSkip, [](int v, int next_v) { return isIncreasing(v, next_v) && isSafeDelta(v, next_v); }) ||
-            isValidPairs(report, canSkip, [](int v, int next_v) { return isDecreasing(v, next_v) && isSafeDelta(v, next_v); });
+            isValidPairs(report, canSkip, isDecreasingAndSafeDelta) ||
+            isValidPairs(report, canSkip, isIncreasingAndSafeDelta);
     }
 
     void parseFile(vector<vector<int>>& reports, const string& input) {
