@@ -18,7 +18,7 @@ namespace rook::aoc::days {
             return true;
         }
 
-        int v_idx = 0;
+        ulong v_idx = 0;
         bool skipped = false;
 
         while (v_idx < report.size() - 1) {

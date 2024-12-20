@@ -14,7 +14,7 @@ namespace rook::aoc::days {
         DayInterface(int day): m_day(day) {
         }
 
-        const int getDay() {
+        int getDay() {
             return m_day;
         }
 
