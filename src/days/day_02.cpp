@@ -8,8 +8,7 @@
 #include "../errors.hpp"
 #include "../io_utils.hpp"
 
-namespace rook::aoc::days {
-
+namespace {
     using namespace rook::aoc;
     using namespace std;
 
@@ -112,6 +111,11 @@ namespace rook::aoc::days {
 
         return to_string(safeCount);
     }
+}
+
+namespace rook::aoc::days {
+    using namespace rook::aoc;
+    using namespace std;
 
     string Day02::solvePart1(const string& input) {
         return solve(input, false);

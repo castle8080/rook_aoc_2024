@@ -8,6 +8,7 @@
 #include "day_interface.hpp"
 #include "day_01.hpp"
 #include "day_02.hpp"
+#include "day_03.hpp"
 
 namespace rook::aoc::days {
 
@@ -16,6 +17,7 @@ namespace rook::aoc::days {
     static vector<function<shared_ptr<DayInterface>()>> DAY_FACTORIES = {
         []() { return make_shared<Day01>(); },
         []() { return make_shared<Day02>(); },
+        []() { return make_shared<Day03>(); },
     };
 
     shared_ptr<DayInterface> getDay(int dayNumber) {
