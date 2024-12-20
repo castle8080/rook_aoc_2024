@@ -30,9 +30,11 @@ void runProblem(int day, const char * part, function<string()> f) {
 int main() {
     try {
         string inputDir = string("../input");
+        //string datasetName("test");
+        string datasetName("");
 
         for (auto day : getAllDays()) {
-            string input = getDayInputFile(inputDir, "", day->getDay());
+            string input = getDayInputFile(inputDir, datasetName, day->getDay());
             runProblem(day->getDay(), "1", [day, input]() { return day->solvePart1(input); });
             runProblem(day->getDay(), "2", [day, input]() { return day->solvePart2(input); });
         }

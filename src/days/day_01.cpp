@@ -20,7 +20,7 @@ namespace rook::aoc::days {
         auto lineRegex = regex("^(\\d+)\\s+(\\d+)");
         smatch m;
 
-        for (auto line : ioReadLines(input)) {
+        for (auto& line : ioReadLines(input)) {
             if (regex_search(line, m, lineRegex)) {
                 int i1 = stoi(m[1].str());
                 int i2 = stoi(m[2].str());
