@@ -23,7 +23,7 @@ namespace rook::aoc::days {
     };
 
     shared_ptr<DayInterface> getDay(int dayNumber) {
-        ulong idx = dayNumber - 1;
+        unsigned long idx = dayNumber - 1;
 
         if (idx >= DAY_FACTORIES.size()) {
             throw SolverException("Could not find day " + dayNumber);

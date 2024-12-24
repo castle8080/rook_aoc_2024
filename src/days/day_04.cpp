@@ -14,7 +14,7 @@ namespace {
 
     static string TARGET_XMAS = string("XMAS");
 
-    void count(const vector<string>& lines, int x, int y, ulong pos, int& totalFound) {
+    void count(const vector<string>& lines, int x, int y, unsigned long pos, int& totalFound) {
         int width = (int) lines[0].size();
         int height = (int) lines.size();
 

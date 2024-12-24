@@ -58,7 +58,7 @@ namespace rook::aoc::days {
         std::sort(list2.begin(), list2.end());
 
         int total = 0;
-        for (ulong i = 0; i < list1.size(); i++) {
+        for (unsigned long i = 0; i < list1.size(); i++) {
             total += abs(list1[i] - list2[i]);
         }
 

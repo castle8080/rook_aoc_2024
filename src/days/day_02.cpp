@@ -4,6 +4,8 @@
 #include <vector>
 #include <algorithm>
 #include <iterator>
+#include <functional>
+#include <sstream>
 
 #include "../errors.hpp"
 #include "../io_utils.hpp"
@@ -17,7 +19,7 @@ namespace {
             return true;
         }
 
-        ulong v_idx = 0;
+        unsigned long v_idx = 0;
         bool skipped = false;
 
         while (v_idx < report.size() - 1) {
