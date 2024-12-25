@@ -14,34 +14,44 @@ namespace {
 
     static string TARGET_XMAS = string("XMAS");
 
-    void count(const vector<string>& lines, int x, int y, unsigned long pos, int& totalFound) {
+    int countWithDirection(const vector<string>& lines, int x, int y, int dx, int dy) {
+        if (lines.size() == 0) {
+            return 0;
+        }
+
         int width = (int) lines[0].size();
         int height = (int) lines.size();
 
-        // out of bounds.
-        if (x < 0 || x >= width || y < 0 || y >= height) {
-            return;
-        }
-
-        // The current position does not match
-        if (TARGET_XMAS[pos] != lines[y].at(x)) {
-            return;
-        }
-        else if (pos == TARGET_XMAS.size() - 1) {
-            // made it to the end.
-            totalFound++;
-            return;
-        }
-
-        for (int dx = -1; dx <= 1; dx++) {
-            for (int dy = -1; dy <= 1; dy++) {
-                // Don't look at same position.
-                if (dx == 0 && dy == 0) {
-                    break;
-                }
-                count(lines, x + dx, y + dy, pos + 1, totalFound);
+        for (int i = 0; i < (int)TARGET_XMAS.size(); i++) {
+            int xp = x + i * dx;
+            int yp = y + i * dy;
+            if (xp < 0 || xp >= width || yp < 0 || yp >= height) {
+                return 0;
+            }
+            else if (TARGET_XMAS[i] != lines[yp][xp]) {
+                return 0;
             }
         }
+
+        return 1;
+    }
+
+    int countAtSpot(const vector<string>& lines, int x, int y) {
+        if (y < 0 || y >= lines.size() || x < 0 || x > lines[0].size()) {
+            return 0;
+        }
+        if (lines[y].at(x) != TARGET_XMAS.at(0)) {
+            return 0;
+        }
+        return
+            countWithDirection(lines, x, y, -1, -1) +
+            countWithDirection(lines, x, y, -1, 0) +
+            countWithDirection(lines, x, y, -1, 1) +
+            countWithDirection(lines, x, y, 0, -1) +
+            countWithDirection(lines, x, y, 0, 1) +
+            countWithDirection(lines, x, y, 1, -1) +
+            countWithDirection(lines, x, y, 1, 0) +
+            countWithDirection(lines, x, y, 1, 1);
     }
 
     int getXMASCounts(const vector<string>& lines) {
@@ -51,18 +61,17 @@ namespace {
         int totalFound = 0;
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
-                count(lines, x, y, 0, totalFound);
+                totalFound += countAtSpot(lines, x, y);
             }
         }
+
         return totalFound;
     }
 }
 
 namespace rook::aoc::days {
-
     using namespace rook::aoc;
     using namespace std;
-
 
     string Day04::solvePart1(const string& input) {
         auto lines = ioReadLines(input);
