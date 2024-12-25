@@ -111,7 +111,7 @@ namespace {
 
                     auto it = aSpots.find(pos);
                     if (it != aSpots.end()) {
-                        aSpots[pos] = it->second + 1;
+                        it->second++;
                     }
                     else {
                         aSpots[pos] = 1;
