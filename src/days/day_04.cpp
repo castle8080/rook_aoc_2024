@@ -60,7 +60,7 @@ namespace {
     void getExistingDirections(string& tgt, const vector<tuple<int, int>>& possibleDirs,
         const vector<string>& lines, int x, int y, vector<tuple<int, int>>& vecs)
     {
-        if (y < 0 || y >= lines.size() || x < 0 || x > lines[0].size()) {
+        if (y < 0 || y >= (int) lines.size() || x < 0 || x > (int) lines[0].size()) {
             return;
         }
         if (lines[y].at(x) != tgt.at(0)) {
