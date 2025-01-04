@@ -17,6 +17,69 @@ namespace {
 
     class PageUpdates {
     public:
+        PageUpdates(const string& fileName) {
+            parse(fileName);
+        }
+
+        const vector<vector<int>>& getReplacementLines() {
+            return replacements;
+        }
+
+        const unordered_set<int>* getBeforesOf(int n) {
+            auto it = rules.find(n);
+            if (it == rules.end()) {
+                return nullptr;
+            }
+            else {
+                return &it->second;
+            }
+        }
+
+        bool isValidReplacementLine(const vector<int>& replacementLine) {
+            unordered_set<int> invalids;
+
+            for (auto n : replacementLine) {
+                if (invalids.find(n) != invalids.end()) {
+                    return false;
+                }
+                else {
+                    auto befores = getBeforesOf(n);
+                    if (befores != nullptr) {
+                        for (auto b : *befores) {
+                            invalids.insert(b);
+                        }
+                    }
+                }
+            }
+
+            return true;
+        }
+
+        int fixReplacementLine(vector<int>& replacementLine) {
+            int changes = -1;
+            int totalChanges = 0;
+            while (changes != 0) {
+                changes = 0;
+                for (int i = 0; i < replacementLine.size() - 1; i++) {
+                    for (int j = i+1; j < replacementLine.size(); j++) {
+                        if (!validateOrder(replacementLine[i], replacementLine[j])) {
+                            int tmp = replacementLine[i];
+                            replacementLine[i] = replacementLine[j];
+                            replacementLine[j] = tmp;
+                            changes++;
+                            totalChanges++;
+                        }
+                    }
+                }
+            }
+
+            return totalChanges;
+        }
+
+    private:
+        unordered_map<int, unordered_set<int>> rules;
+        vector<vector<int>> replacements;
+        
         void parse(const string& fileName) {
             auto lines = ioReadLines(fileName);
 
@@ -36,24 +99,6 @@ namespace {
             }
         }
 
-        const vector<vector<int>>& getReplacementLines() {
-            return replacements;
-        }
-
-        const vector<int>* getBeforesOf(int n) {
-            auto it = rules.find(n);
-            if (it == rules.end()) {
-                return nullptr;
-            }
-            else {
-                return &it->second;
-            }
-        }
-
-    private:
-        unordered_map<int, vector<int>> rules;
-        vector<vector<int>> replacements;
-
         void parseRuleLine(const string& line) {
             auto rule = readNumberList(line, '|');
             if (rule.size() != 2) {
@@ -64,7 +109,7 @@ namespace {
 
             auto it = rules.find(an);
             if (it != rules.end()) {
-                it->second.push_back(bn);
+                it->second.insert(bn);
             }
             else {
                 rules[an] = { bn };
@@ -77,27 +122,17 @@ namespace {
                 replacements.push_back(move(replacementLine));
             }
         }
-    };
 
-    bool isValidReplacementLine(PageUpdates& updates, const vector<int>& replacementLine) {
-        unordered_set<int> invalids;
-
-        for (auto n : replacementLine) {
-            if (invalids.find(n) != invalids.end()) {
+        bool validateOrder(int a, int b) {
+            auto befores = getBeforesOf(a);
+            if (befores != nullptr && befores->find(b) != befores->end()) {
                 return false;
             }
             else {
-                auto befores = updates.getBeforesOf(n);
-                if (befores != nullptr) {
-                    for (auto b : *befores) {
-                        invalids.insert(b);
-                    }
-                }
+                return true;
             }
         }
-
-        return true;
-    }
+    };
 
     int getMiddleValue(const vector<int>& replacementLine) {
         return replacementLine[replacementLine.size() / 2];
@@ -109,12 +144,11 @@ namespace rook::aoc::days {
     using namespace std;
 
     string Day05::solvePart1(const string& input) {
-        PageUpdates updates;
-        updates.parse(input);
+        PageUpdates updates(input);
 
         int total = 0;
         for (auto replacementLine : updates.getReplacementLines()) {
-            if (isValidReplacementLine(updates, replacementLine)) {
+            if (updates.isValidReplacementLine(replacementLine)) {
                 total += getMiddleValue(replacementLine);
             }
         }
@@ -123,8 +157,16 @@ namespace rook::aoc::days {
     }
 
     string Day05::solvePart2(const string& input) {
-        (void)input;
+        PageUpdates updates(input);
+        
+        int total = 0;
+        for (auto replacementLine : updates.getReplacementLines()) {
+            vector<int> newLine(replacementLine);
+            if (updates.fixReplacementLine(newLine) != 0) {
+                total += getMiddleValue(newLine);
+            }
+        }
 
-        return "";
+        return to_string(total);
     }
 }
