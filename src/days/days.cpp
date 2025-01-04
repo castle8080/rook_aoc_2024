@@ -11,6 +11,7 @@
 #include "day_03.hpp"
 #include "day_04.hpp"
 #include "day_05.hpp"
+#include "day_06.hpp"
 
 namespace rook::aoc::days {
 
@@ -22,6 +23,7 @@ namespace rook::aoc::days {
         []() { return make_shared<Day03>(); },
         []() { return make_shared<Day04>(); },
         []() { return make_shared<Day05>(); },
+        []() { return make_shared<Day06>(); },
     };
 
     shared_ptr<DayInterface> getDay(int dayNumber) {
