@@ -58,7 +58,12 @@ namespace {
         int fixReplacementLine(vector<int>& replacementLine) {
             int changes = -1;
             int totalChanges = 0;
+            int scans = 0;
+
             while (changes != 0) {
+                if (scans > replacementLine.size()) {
+                    throw SolverException("There is no solution for this line.");
+                }
                 changes = 0;
                 for (int i = 0; i < replacementLine.size() - 1; i++) {
                     for (int j = i+1; j < replacementLine.size(); j++) {
@@ -71,6 +76,7 @@ namespace {
                         }
                     }
                 }
+                scans++;
             }
 
             return totalChanges;
