@@ -61,12 +61,12 @@ namespace {
             int scans = 0;
 
             while (changes != 0) {
-                if (scans > replacementLine.size()) {
+                if (scans > (int) replacementLine.size()) {
                     throw SolverException("There is no solution for this line.");
                 }
                 changes = 0;
-                for (int i = 0; i < replacementLine.size() - 1; i++) {
-                    for (int j = i+1; j < replacementLine.size(); j++) {
+                for (int i = 0; i < (int) replacementLine.size() - 1; i++) {
+                    for (int j = i+1; j < (int) replacementLine.size(); j++) {
                         if (!validateOrder(replacementLine[i], replacementLine[j])) {
                             int tmp = replacementLine[i];
                             replacementLine[i] = replacementLine[j];
