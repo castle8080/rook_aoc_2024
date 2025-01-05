@@ -16,6 +16,10 @@ namespace {
     using namespace std;
 
     class PageUpdates {
+    private:
+        unordered_map<int, unordered_set<int>> rules;
+        vector<vector<int>> replacements;
+
     public:
         PageUpdates(const string& fileName) {
             parse(fileName);
@@ -83,8 +87,6 @@ namespace {
         }
 
     private:
-        unordered_map<int, unordered_set<int>> rules;
-        vector<vector<int>> replacements;
         
         void parse(const string& fileName) {
             auto lines = ioReadLines(fileName);
